@@ -6,17 +6,19 @@
     <br>
 </div>
 
-##  Introduction
+## Introduction
 
 linkding is a bookmark manager that you can host yourself.
 It's designed be to be minimal, fast, and easy to set up using Docker.
 
 The name comes from:
-- *link* which is often used as a synonym for URLs and bookmarks in common language
-- *Ding* which is German for thing
+
+- _link_ which is often used as a synonym for URLs and bookmarks in common language
+- _Ding_ which is German for thing
 - ...so basically something for managing your links
 
 **Feature Overview:**
+
 - Clean UI optimized for readability
 - Organize bookmarks with tags
 - Bulk editing, Markdown notes, read it later functionality
@@ -30,16 +32,16 @@ The name comes from:
 - REST API for developing 3rd party apps
 - Admin panel for user self-service and raw data access
 
-
 **Demo:** https://demo.linkding.link/
 
 **Screenshot:**
 
-![Screenshot](/docs/public/linkding-screenshot.png?raw=true "Screenshot")
+![Screenshot](/docs/public/linkding-screenshot.png?raw=true 'Screenshot')
 
 ## Getting Started
 
 The following links help you to get started with linkding:
+
 - [Install linkding on your own server](https://linkding.link/installation) or [check managed hosting options](https://linkding.link/managed-hosting)
 - [Install the browser extension](https://linkding.link/browser-extension)
 - [Check out community projects](https://linkding.link/community), which include mobile apps, browser extensions, libraries and more
@@ -61,49 +63,79 @@ Small improvements, bugfixes and documentation improvements are always welcome. 
 The application is built using the Django web framework. You can get started by checking out the excellent [Django docs](https://docs.djangoproject.com/en/4.1/). The `bookmarks` folder contains the actual bookmark application. Other than that the code should be self-explanatory / standard Django stuff 🙂.
 
 ### Prerequisites
+
 - Python 3.12
 - Node.js
 
 ### Setup
 
+[Note](https://medium.com/@presh_onyee/activating-virtualenv-on-windows-using-git-bash-python-3-7-1-6b4b21640368): To use Git bash, you can't Activate the environment from a drive(ssd/HDD) located somewhere else. If you must, the activate environment from its Scripts folder then cd anywhere.
+
 Create a virtual environment for the application (https://docs.python.org/3/tutorial/venv.html):
+
 ```
-python3 -m venv ~/environments/linkding
+python -m venv C:\Users\Ryzen\environments\linkding
 ```
-Activate the environment for your shell:
+
+Activate the environment for Git bash:
+
 ```
-source ~/environments/linkding/bin/activate[.csh|.fish]
+source C:/Users/Ryzen/environments/linkding/Scripts/activate
+. C:/Users/Ryzen/environments/linkding/Scripts/activate
+. activate
 ```
+
+Activate the environment for your CMD:
+
+```
+C:\Users\Ryzen\environments\linkding\Scripts\activate
+C:\Users\Ryzen\environments\linkding\Scripts\activate.ps
+```
+
 Within the active environment install the application dependencies from the application folder:
+
 ```
 pip3 install -r requirements.txt -r requirements.dev.txt
+C:/Users/Ryzen/environments/linkding/Scripts/python.exe -m pip install -r requirements.txt -r requirements.dev.txt
 ```
+
 Install frontend dependencies:
+
 ```
 npm install
 ```
+
 Initialize database:
+
 ```
 mkdir -p data
-python3 manage.py migrate
+python manage.py migrate
 ```
+
 Create a user for the frontend:
+
 ```
-python3 manage.py createsuperuser --username=joe --email=joe@example.com
+C:/Users/Ryzen/environments/linkding/Scripts/python.exe manage.py createsuperuser --username=JenieX --email=joe@example.com
 ```
+
 Start the Node.js development server (used for compiling JavaScript components like tag auto-completion) with:
+
 ```
 npm run dev
 ```
+
 Start the Django development server with:
+
 ```
-python3 manage.py runserver
+C:/Users/Ryzen/environments/linkding/Scripts/python.exe manage.py runserver
 ```
+
 The frontend is now available under http://localhost:8000
 
 ### Tests
 
 Run all tests with pytest:
+
 ```
 make test
 ```
@@ -111,6 +143,7 @@ make test
 ### Formatting
 
 Format Python code with black, and JavaScript code with prettier:
+
 ```
 make format
 ```
@@ -122,15 +155,76 @@ This repository also supports DevContainers: [![Open in Remote - Containers](htt
 Once checked out, only the following commands are required to get started:
 
 Create a user for the frontend:
+
 ```
 python3 manage.py createsuperuser --username=joe --email=joe@example.com
 ```
+
 Start the Node.js development server (used for compiling JavaScript components like tag auto-completion) with:
+
 ```
 npm run dev
 ```
+
 Start the Django development server with:
+
 ```
 python3 manage.py runserver
 ```
+
 The frontend is now available under http://localhost:8000
+
+---
+
+```bash
+pip list -v
+C:/Users/Ryzen/environments/linkding/Scripts/python.exe -m pip list -v
+pip3 -v
+pip -v
+python -m site
+where python
+which python
+python -c "import sys; print(sys.executable)"
+```
+
+### Setup using Git bash
+
+[Note](https://medium.com/@presh_onyee/activating-virtualenv-on-windows-using-git-bash-python-3-7-1-6b4b21640368): Using Git bash, you can't activate the environment from a drive(ssd/HDD) located somewhere else other than the project drive. So you should always include the environment folder inside the project itself.
+
+
+```bash
+# From this project root, run these commands:
+
+python -m venv environments/linkding
+. environments/linkding/Scripts/activate
+
+# Confirm that the used python is the one located inside the created environment.
+which python
+
+# Confirm the list of installed packages, which should only be 2 inside the created environment.
+pip list -v
+
+# After commenting `uwsgi==2.0.28` since it is not available on Windows.
+pip install -r requirements.txt -r requirements.dev.txt
+
+# Initialize database
+mkdir -p data
+python manage.py migrate
+
+mkdir -p data/favicons data/previews
+
+# Create a user for the frontend (Use CMD for this command!)
+environments\linkding\Scripts\python.exe manage.py createsuperuser --username=JenieX --email=joe@example.com
+
+# Run server on http://localhost:8000
+python manage.py runserver
+
+# Run server on http://192.168.0.39:8000
+# Add '192.168.0.39' to the ALLOWED_HOSTS in
+# environments/linkding/Lib/site-packages/django/conf/global_settings.py
+# Then
+python manage.py runserver 0.0.0.0:8000
+
+npm install
+npm run dev
+```
