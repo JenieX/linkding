@@ -184,6 +184,7 @@ pip -v
 python -m site
 where python
 which python
+command -v python
 python -c "import sys; print(sys.executable)"
 ```
 
